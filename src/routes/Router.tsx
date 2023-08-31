@@ -1,7 +1,12 @@
+import { Navigate, Outlet, useRoutes } from 'react-router';
+
+import { IssueProvider } from '@/context';
+
 import IssueList from '@/pages/IssueList';
 import Issue from '@/pages/Issue';
-import { Navigate, Outlet, useRoutes } from 'react-router';
-import { IssueProvider } from '@/context';
+
+import IssueFetcher from '@/fetcher/IssueFetcher';
+
 import Header from '@/components/Header';
 
 const Router = () =>
@@ -21,7 +26,9 @@ const Router = () =>
           path: '/issue/:issueNumber',
           element: (
             <IssueProvider>
-              <Issue />
+              <IssueFetcher>
+                <Issue />
+              </IssueFetcher>
             </IssueProvider>
           ),
         },
