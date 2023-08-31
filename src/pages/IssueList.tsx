@@ -1,9 +1,20 @@
 import useIssueListContext from '@/hooks/useIssueListContext';
+import { issueDataType } from '@/types/types';
+import React from 'react';
+import IssuePage from '@/components/IssuePage';
 
-const IssueList = () => {
+const IssueList: React.FC = () => {
   const { issues } = useIssueListContext();
 
-  return <div>IssueList</div>;
+  console.log('현재컴포넌트에 들어오는 모양', issues);
+
+  return (
+    <div className="issue-list">
+      {issues.map((issuePage: issueDataType[], pageIndex: number) => (
+        <IssuePage key={pageIndex} issues={issuePage} />
+      ))}
+    </div>
+  );
 };
 
 export default IssueList;
