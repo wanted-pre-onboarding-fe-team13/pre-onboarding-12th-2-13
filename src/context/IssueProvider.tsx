@@ -1,13 +1,11 @@
+import { ReactNode, createContext, useState } from 'react';
+
 import { getIssueDetails } from '@/apis';
-import { ReactNode, createContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
 
 type IssueContextType = {
   issue: issueDataType;
-  dispatch: dispatchType;
-};
-
-type dispatchType = {
+  isLoading: boolean;
+  error: boolean;
   fetchIssue: (id: number) => void;
 };
 
@@ -21,36 +19,57 @@ type issueDataType = {
   body: string;
 };
 
+const nullIssue = {
+  number: 0,
+  title: '',
+  avatar: '',
+  login: '',
+  comments: 0,
+  created_at: '',
+  body: '',
+};
+
 export const IssueContext = createContext<IssueContextType | null>(null);
 
 export const IssueProvider = ({ children }: { children: ReactNode }) => {
-  const [issue, setIssue] = useState<issueDataType | null>(null);
-  const param = useParams();
-  const issueNumber = Number(param.issueNumber);
-  const dispatch: dispatchType = {
-    fetchIssue,
+  const [issue, setIssue] = useState<issueDataType>(nullIssue);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  const fetchIssue = async (id: number) => {
+    try {
+      setIsLoading(true);
+
+      const data = await getIssueDetails(id);
+
+      const isssueData = {
+        number: data.number,
+        title: data.title,
+        avatar: data.user.avatar_url,
+        login: data.user.login,
+        comments: data.comments,
+        created_at: data.created_at,
+        body: data.body,
+      };
+
+      setIssue(isssueData);
+    } catch {
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  useEffect(() => {
-    fetchIssue(issueNumber);
-  }, [issueNumber]);
-
-  if (!issue) return <div>loading...</div>;
-
-  async function fetchIssue(id: number) {
-    const response = await getIssueDetails(id);
-    const isssueData = {
-      number: response.number,
-      title: response.title,
-      avatar: response.user.avatar_url,
-      login: response.user.login,
-      comments: response.comments,
-      created_at: response.created_at,
-      body: response.body,
-    };
-
-    setIssue(isssueData);
-  }
-
-  return <IssueContext.Provider value={{ issue, dispatch }}>{children}</IssueContext.Provider>;
+  return (
+    <IssueContext.Provider
+      value={{
+        issue,
+        isLoading,
+        error,
+        fetchIssue,
+      }}
+    >
+      {children}
+    </IssueContext.Provider>
+  );
 };
