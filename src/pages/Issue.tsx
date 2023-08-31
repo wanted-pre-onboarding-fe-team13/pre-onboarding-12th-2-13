@@ -5,9 +5,10 @@ import '@/styles/markdown.css';
 import { dateToKr } from '@/utils';
 
 const Issue = () => {
-  const { issuecontext } = useIssueContext();
+  const { issue } = useIssueContext();
 
-  const { avatar, body, comments, created_at, login, number, title } = issuecontext.issue;
+  const { avatar, body, comments, created_at, login, number, title } = issue;
+
   const createdDate = dateToKr(created_at);
 
   return (

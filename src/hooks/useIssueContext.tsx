@@ -6,5 +6,5 @@ export const useIssueContext = () => {
 
   if (!issuecontext) throw new Error('Cannot find context');
 
-  return { issuecontext };
+  return issuecontext;
 };
