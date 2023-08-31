@@ -31,8 +31,8 @@ export const IssueProvider = ({ children }: PropsWithChildren) => {
       setIsLoading(true);
 
       const data = await getIssuesPage(pageNum);
-
-      setIssues([...issues, ...data]);
+      const newDataPage = [data];
+      setIssues([...issues, ...newDataPage]);
       setHasNextPage(!!data.length);
     } catch {
       setError(true);
