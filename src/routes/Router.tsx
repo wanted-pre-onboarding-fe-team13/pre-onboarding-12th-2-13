@@ -2,6 +2,7 @@ import IssueList from '@/pages/IssueList';
 import Issue from '@/pages/Issue';
 import { Navigate, Outlet, useRoutes } from 'react-router';
 import { IssueProvider } from '@/context';
+import Header from '@/components/Header';
 
 const Router = () =>
   useRoutes([
@@ -10,7 +11,7 @@ const Router = () =>
       path: '/',
       element: (
         <>
-          <div>header</div>
+          <Header />
           <Outlet />
         </>
       ),
