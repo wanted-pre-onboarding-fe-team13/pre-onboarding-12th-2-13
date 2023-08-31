@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 
 import useIssueListContext from '@/hooks/useIssueListContext';
+import useIssueListInfiniteScroll from '@/hooks/useIssueListInfiniteScroll';
 
-import useIssueListInfiniteScroll from '../hooks/useIssueListInfiniteScroll';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function IssueListFetcher({ children }: React.PropsWithChildren) {
   const { page, isLoading, error, fetchIssues } = useIssueListContext();
@@ -22,7 +23,7 @@ export default function IssueListFetcher({ children }: React.PropsWithChildren) 
     return (
       <>
         {children}
-        <p>Loading...</p>
+        <LoadingSpinner />
         <div ref={targetRef} />
       </>
     );
