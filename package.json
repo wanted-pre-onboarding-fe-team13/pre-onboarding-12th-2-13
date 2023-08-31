@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@octokit/types": "^11.1.0",
     "@types/dotenv": "^8.2.0",
     "@types/node": "^20.5.7",
     "@types/react-router": "^5.1.20",
