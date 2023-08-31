@@ -1,15 +1,22 @@
 import React from 'react';
 import { issueDataType } from '@/types/types';
 import { dateToKr } from '@/utils';
+import { useNavigate } from 'react-router-dom';
 
 interface IssueCardProps {
   issue: issueDataType;
 }
 
 const IssueCard: React.FC<IssueCardProps> = ({ issue }) => {
+  const navigate = useNavigate();
   const createdDate = dateToKr(issue.created_at);
   return (
-    <div className="issue-card flex flex-row justify-between border-2 border-solid p-3 mt-3 rounded-lg">
+    <div
+      className="issue-card flex flex-row justify-between border-2 border-solid p-3 mt-3 rounded-lg mx-10 cursor-pointer hover:shadow-md transform hover:-translate-y-1 transition-all"
+      onClick={() => {
+        navigate(`/issue/${issue.number}`);
+      }}
+    >
       <div className="issue-content">
         <h3 className="font-bold mb-2">
           #{issue.number} {issue.title}
