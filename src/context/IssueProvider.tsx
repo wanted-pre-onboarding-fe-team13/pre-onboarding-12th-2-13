@@ -49,8 +49,6 @@ export const IssueProvider = ({ children }: { children: ReactNode }) => {
       body: response.body,
     };
 
-    console.log(response);
-
     setIssue(isssueData);
   }
 
