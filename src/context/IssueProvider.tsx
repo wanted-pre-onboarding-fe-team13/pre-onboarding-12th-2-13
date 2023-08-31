@@ -2,22 +2,7 @@ import { ReactNode, createContext, useState } from 'react';
 
 import { getIssueDetails } from '@/apis';
 
-type IssueContextType = {
-  issue: issueDataType;
-  isLoading: boolean;
-  error: boolean;
-  fetchIssue: (id: number) => void;
-};
-
-type issueDataType = {
-  number: number;
-  title: string;
-  avatar: string;
-  login: string;
-  comments: number;
-  created_at: string;
-  body: string;
-};
+import { issueDataType, IssueContextType } from '@/types/types';
 
 const nullIssue = {
   number: 0,
