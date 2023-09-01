@@ -31,7 +31,10 @@
 
 ---
 
-## 🎬 페이지 미리보기
+## 🎬 페이지 미리보기 & 구현영상
+
+구현영상은 배포 링크로 대체합니다.
+https://pre-onboarding-12th-2-13-git-develop-patataco.vercel.app/issues
 
 ### 메인 페이지 (이슈 목록)
 
