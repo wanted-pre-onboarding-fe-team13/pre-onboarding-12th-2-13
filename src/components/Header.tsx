@@ -5,8 +5,6 @@ const Header = () => {
   const navigate = useNavigate();
   const loacation = useLocation();
 
-  console.log(loacation);
-
   return (
     <header className="sticky top-0 left-0 right-0 w-full text-center pt-10 pb-10 text-3xl bg-neutral-100 z-10">
       facebook / react
