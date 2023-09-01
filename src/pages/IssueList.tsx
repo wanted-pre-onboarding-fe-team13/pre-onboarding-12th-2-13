@@ -6,8 +6,6 @@ import IssuePage from '@/components/IssuePage';
 const IssueList: React.FC = () => {
   const { issues } = useIssueListContext();
 
-  console.log('현재컴포넌트에 들어오는 모양', issues);
-
   return (
     <div className="issue-list">
       {issues.map((issuePage: issueDataType[], pageIndex: number) => (
