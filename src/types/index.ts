@@ -13,7 +13,7 @@ export type issueDataType = {
 };
 
 export type IssueContextType = {
-  issue: issueDataType;
+  issue: issueDataType | null;
   isLoading: boolean;
   error: boolean;
   fetchIssue: (id: number) => void;

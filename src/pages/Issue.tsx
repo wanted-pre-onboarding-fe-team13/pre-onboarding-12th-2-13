@@ -6,20 +6,20 @@ import { dateToKr } from '@/utils';
 
 const Issue = () => {
   const { issue } = useIssueContext();
-
+  if (!issue) return;
   const { avatar, body, comments, created_at, login, number, title } = issue;
 
   const createdDate = dateToKr(created_at);
 
   return (
-    <main className="w-full flex justify-center pb-20">
+    <main className="flex justify-center w-full pb-20">
       <article className="w-11/12 md:w-10/12 lg:max-w-5xl">
-        <div className="flex items-center border-b-2 mb-20 pt-20 pb-20">
-          <div className="w-24 rounded-md overflow-hidden">
-            <img src={avatar} className="w-24 rounded-md overflow-hidden" />
+        <div className="flex items-center pt-20 pb-20 mb-20 border-b-2">
+          <div className="w-24 overflow-hidden rounded-md">
+            <img src={avatar} className="w-24 overflow-hidden rounded-md" />
           </div>
-          <div className="ml-8 lg:mb-3 w-full">
-            <h2 className="font-bold text-l mb-4 md:text-xl lg:text-2xl">
+          <div className="w-full ml-8 lg:mb-3">
+            <h2 className="mb-4 font-bold text-l md:text-xl lg:text-2xl">
               &#91;#{number}&#93; {title}
             </h2>
             <div className="w-full md:flex md:justify-between">
@@ -40,7 +40,7 @@ const Issue = () => {
             </div>
           </div>
         </div>
-        <section className=" pr-10 pl-10">
+        <section className="pl-10 pr-10 ">
           {!body && <p className="text-center">등록된 이슈가 없습니다.</p>}
           <ReactMarkdown remarkPlugins={[remarkGfm]} className="markdown-body">
             {body}

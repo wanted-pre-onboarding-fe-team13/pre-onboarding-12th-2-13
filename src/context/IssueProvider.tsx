@@ -4,24 +4,15 @@ import { getIssueDetails } from '@/apis';
 
 import { issueDataType, IssueContextType } from '@/types';
 
-const nullIssue = {
-  number: 0,
-  title: '',
-  avatar: '',
-  login: '',
-  comments: 0,
-  created_at: '',
-  body: '',
-};
-
 export const IssueContext = createContext<IssueContextType | null>(null);
 
 export const IssueProvider = ({ children }: { children: ReactNode }) => {
-  const [issue, setIssue] = useState<issueDataType>(nullIssue);
+  const [issue, setIssue] = useState<issueDataType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
   const fetchIssue = async (id: number) => {
+    setIssue(null);
     try {
       setIsLoading(true);
 
