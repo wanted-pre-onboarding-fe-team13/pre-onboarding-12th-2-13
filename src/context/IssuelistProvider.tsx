@@ -1,11 +1,7 @@
 //Issueprovider: 이슈번호, 이슈제목, 작성자, 작성일, 코멘트수
 import { createContext, PropsWithChildren, useState } from 'react';
 import { getIssuesPage } from '@/apis';
-import { issueDataType } from '@/types/types';
-
-/* 타입 처리 문제 */
-// import { Endpoints } from '@octokit/types';
-// type recievedIssue = Endpoints['GET /issues']['response']['data'][0];
+import { issueDataType, Issue } from '@/types';
 
 export interface IssuelistContextProps {
   issues: issueDataType[][];
@@ -30,12 +26,11 @@ export const IssuelistProvider = ({ children }: PropsWithChildren) => {
     try {
       setIsLoading(true);
       const data = await getIssuesPage(pageNum);
-      // Fix issueData any, 만약 recievedIssue이면 에러
-      const simplifiedData = data.map((issueData: any) => ({
+      const simplifiedData = data.map((issueData: Issue) => ({
         number: issueData.number,
         title: issueData.title,
-        avatar: issueData.user.avatar_url,
-        login: issueData.user.login,
+        avatar: issueData.user?.avatar_url,
+        login: issueData.user?.login,
         comments: issueData.comments,
         created_at: issueData.created_at,
         body: issueData.body,
