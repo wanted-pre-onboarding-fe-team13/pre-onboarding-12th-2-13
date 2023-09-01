@@ -1,7 +1,7 @@
 // IssuePage.tsx
 import React from 'react';
 import IssueCard from './IssueCard';
-import { issueDataType } from '@/types/types';
+import { issueDataType } from '@/types';
 import AdCard from './AdCard';
 
 interface IssuePageProps {

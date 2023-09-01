@@ -1,5 +1,5 @@
 import useIssueListContext from '@/hooks/useIssueListContext';
-import { issueDataType } from '@/types/types';
+import { issueDataType } from '@/types';
 import React from 'react';
 import IssuePage from '@/components/IssuePage';
 
