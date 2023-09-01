@@ -9,6 +9,8 @@ import IssueFetcher from '@/fetcher/IssueFetcher';
 import IssueListFetcher from '@/fetcher/IssueListFetcher';
 
 import Header from '@/components/Header';
+import ApiErrorBoundary from '@/boundary/ApiErrorBoundary';
+import ErrorCard from '@/components/ErrorCard';
 
 const Router = () =>
   useRoutes([
@@ -26,9 +28,11 @@ const Router = () =>
           path: '/issue-list',
           element: (
             <IssuelistProvider>
-              <IssueListFetcher>
-                <IssueList />
-              </IssueListFetcher>
+              <ApiErrorBoundary fallback={({ error, reset }) => <ErrorCard />}>
+                <IssueListFetcher>
+                  <IssueList />
+                </IssueListFetcher>
+              </ApiErrorBoundary>
             </IssuelistProvider>
           ),
         },
