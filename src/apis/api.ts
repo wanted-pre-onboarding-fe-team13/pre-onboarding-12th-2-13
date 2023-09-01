@@ -6,7 +6,9 @@ export const octokit = new Octokit({
 });
 
 export const getIssuesPage = async (pageParam = 1) => {
-  const { data } = await octokit.request(`GET /issues?state=open&sort=comments&page=${pageParam}`);
+  const { data } = await octokit.request(
+    `GET /issues?state=open&sort=comments&per_page=10&page=${pageParam}`,
+  );
   return data;
 };
 
