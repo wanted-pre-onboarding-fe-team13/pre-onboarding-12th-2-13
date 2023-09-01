@@ -8,7 +8,7 @@ export interface IssuelistContextProps {
   page: number;
   hasNextPage: boolean;
   isLoading: boolean;
-  error: boolean;
+  error: Error | null;
   fetchIssues: (page: number) => void;
   increasePage: () => void;
 }
@@ -20,7 +20,7 @@ export const IssuelistProvider = ({ children }: PropsWithChildren) => {
   const [page, setPage] = useState<number>(1);
   const [hasNextPage, setHasNextPage] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   const fetchIssues = async (pageNum: number) => {
     try {
@@ -39,8 +39,8 @@ export const IssuelistProvider = ({ children }: PropsWithChildren) => {
       setIssues(prevIssues => [...prevIssues, simplifiedData]);
       setPage(pageNum);
       setHasNextPage(!!data.length);
-    } catch {
-      setError(true);
+    } catch (error) {
+      setError(error);
     } finally {
       setIsLoading(false);
     }
