@@ -41,53 +41,61 @@
 
 <img src="./src/assets/issuepage.png" width="400">
 
-## 💭 Best Practice
+## 💭 설계 방향
 
-#### 선정 기준
+#### 설계 목표
 
-Best Practice를 선정하기 위한 토의를 통해 팀원들의 공통된 관심사는 아래와 같았습니다.
-
-- 에러 핸들링, Suspense, Loader를 적용법
+- 에러 핸들링, Suspense, Loader를 적용
 - 무한 스크롤 구현 방식
 - 데이터 전역 상태 관리
-- 가독성과 재사용성이 높은 코드
 
-#### 선정된 Best Practice
+#### 구현 방법
 
-이러한 기준을 바탕으로 선정된 Best Practice는 크게 4가지 입니다.
+이러한 기준을 바탕으로 선정된 Best Practice는 크게 3가지 입니다.
 
 1. 에러바운더리를 통한 페이지 별 에러 처리
 2. Intersection observer API를 사용한 무한 스크롤 구현
 3. Context API의 사용하여 데이터 전역 상태 관리
-4. 커스텀 fetching 훅 분리를 통한 폭 넓은 사용성
 
 ## 🛠️ 설계 및 구현 설명
 
-### 에러바운더리를 통한 페이지 별 에러 처리
+### 1. 무한스크롤의 페이지 별 비동기 동작 처리
 
 #### 설계 및 개발 방향
 
-- 샘플1
+API 호출과 같은 비동기 통신에 대한 로딩과 에러 상태, 데이터를 효율적으로 처리하고 사용자에게 적절한 화면과 가이드를 제공하는 것이 주요 목표였습니다.
 
-  - 제목: 내용
+- Error Boundary를 사용하여 API 호출에 대한 에러를 한 곳에서 선언적으로 처리
+- suspense를 대체할 수 있는 fetcher 컴포넌트를 사용하여 API 호출 상태에 대한 책임을 위임
 
-- 샘플2
+특히, API 요청 단위에 맞춰 최대한 작은 범위에서 로딩과 에러 상태를 표시하여 더 나은 사용자 경험을 제공하고자 하였습니다. 이에 따라 설계한 구조는 아래와 같습니다.
 
-  - 제목: 내용
+```javascript
+<ApiErrorBoundary> // 단일 페이지의 API 동작 중 발생한 에러를 처리
+  <ApiFetcher> // 단일 페이지의 API 호출을 담당
+    <ListPerPage> // 각 페이지의 데이터를 화면에 렌더링하는 UI
+  <ApiFetcher />
+<ApiErrorBoundary />
+```
 
 #### 주요 구성 및 동작
 
-- AuthProvider (src/context/AuthProvider.tsx)
+- IssueListFetcher.tsx
 
-  - 상태 관리: isAuthenticated를 통해 사용자의 인증 상태를 파악하며, loading과 isInitialized 상태로 인증 처리 및 컴포넌트 초기화 상태를 판단합니다.
-  - token 관리: 로컬 스토리지에 저장된 access_token을 활용하여 사용자의 로그인 상태를 초기화하거나 업데이트합니다.
-  - 인증 함수 제공: login 및 register 함수로 로그인 및 회원가입 기능을 제공합니다.
+  - 하위 컴포넌트를 렌더링하기 위한 데이터를 요청하고, 그에 따라 loading 및 error에 대한 정보를 가지고 있습니다.
+  - 데이터의 요청 상태가 loading일 경우 로딩 UI를 반환하고, 에러가 발생한 경우 ApiErrorBoundary에서 에러를 catch할 수 있도록 에러를 throw합니다.
 
-- TodoGuard (src/guards/Todoguard.tsx)
+- ApiErrorBoundary (src/boundary/ApiErrorBoundary.tsx)
 
-  - 로그인 상태 확인: 사용자가 로그인 되지 않았을 때 로그인 페이지로 리다이렉션 합니다.
+  - 하위 컴포넌트에서 throw한 에러를 catch하여 API 단위에서 처리할 수 있는 단위인지, 전역에서 처리해야하는 에러인지 구별합니다. API 단위에서 처리할 수 있는 에러라면 Fallback UI를 반환하고, 그렇지 않다면 GlobalErrorBoundary에서 catch하여 처리할 수 있도록 rethrow해줍니다.
 
-### 데이터 전역 상태 관리
+### 2. Intersection observer API를 사용한 무한 스크롤 구현
+
+#### 설계 및 개발 방향
+
+reflow 발생으로 성능 저하의 문제가 있는 scroll 이벤트 대신 Intersection Observer API를 사용하여 리스트 최하단의 요소가 화면 안에 감지됐을 때 다음 페이지를 요청할 수 있도록 했습니다.
+
+### 3. Context API의 사용하여 데이터 전역 상태 관리
 
 #### 설계 및 개발 방향
 
@@ -95,12 +103,11 @@ Best Practice를 선정하기 위한 토의를 통해 팀원들의 공통된 관
 
 - Context API를 통한 비즈니스 로직 분리
 
-  - 상태 및 액션의 전역 관리 : 사용자의 데이터와 Todo 관련한 동작들을 전역적으로 관리하여 데이터와 관련 로직을 쉽게 재사용하고 변경할 수 있습니다.
-  - 서버와의 연동 용이 : 사용자의 데이터가 전역에서 관리되므로 변경사항 발생 시 중앙에서 서버 데이터를 refetch하여 어플리케이션 전반적으로 서버와 동일한 데이터를 가지도록 했습니다.
+  - 상태 및 액션의 전역 관리 : 사용자의 데이터와 Issue 관련한 동작들을 전역적으로 관리하여 데이터와 관련 로직을 쉽게 재사용하고 변경할 수 있습니다.
 
 #### 주요 구성 및 동작
 
-- TodoProvider (src/context/TodoProvider.tsx)
+- IssueListProvider (src/context/IssueListProvider.tsx)
 
-  - 기능에 따른 Context 분리 : '상태'와 '액션'의 두 가지로 나눠 'TodoStateContext'와 'TodoDispatchContext'로 context를 분리했습니다.
-  - 서버 데이터 refetching : TodoProvider가 렌더링될 때 혹은 update, delete과 같은 데이터 변경사항이 발생했을 때 서버 데이터를 refetch하도록 로직을 구성했습니다.
+  - IssueList를 구성하는 데이터를 전역에서 관리하여 각 페이지에 제공했습니다.
+  - 각 페이지를 fetch 할 때마다 다음 페이지의 데이터가 있는지에 대한 값을 저장하여, 다음 페이지의 데이터가 없을 경우 무한스크롤을 처리하는 커스텀 훅에서 다음 페이지를 요청하지 않도록 했습니다.
