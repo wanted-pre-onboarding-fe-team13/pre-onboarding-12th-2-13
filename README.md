@@ -26,7 +26,7 @@
 
 ## 사용한 기술 스택
 
-<img src="https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=flat-square"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat-square&logo=Tailwind%20CSS&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=Axios&logoColor=white"/> <img src="https://img.shields.io/badge/Octokit-2F93E0?style=flat-square&logo=Octopus-Deploy&logoColor=white"/>
+<img src="https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=flat-square"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/React Router-CA4245?style=flat-square&logo=React Router&logoColor=white"> <img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat-square&logo=Tailwind%20CSS&logoColor=white"/> <img src="https://img.shields.io/badge/Octokit-2F93E0?style=flat-square&logo=Octopus-Deploy&logoColor=white"/>
 </br>
 
 ---
@@ -47,19 +47,19 @@
 
 Best Practice를 선정하기 위한 토의를 통해 팀원들의 공통된 관심사는 아래와 같았습니다.
 
-- View와 Business Logic의 분리
+- 에러 핸들링, Suspense, Loader를 적용법
+- 무한 스크롤 구현 방식
+- 데이터 전역 상태 관리
 - 가독성과 재사용성이 높은 코드
-- 컴포넌트의 재사용성
-- 서버와 동일한 데이터 보장
 
 #### 선정된 Best Practice
 
 이러한 기준을 바탕으로 선정된 Best Practice는 크게 4가지 입니다.
 
-1. Context API의 사용하여 비즈니스 로직 분리
-2. 공통된 코드를 hook이나 util로 분리
-3. 재사용 가능한 공통 UI 컴포넌트의 설계
-4. 데이터 변경 이벤트 발생시 서버 데이터 refetch
+1. 에러바운더리를 통한 페이지 별 에러 처리
+2. Intersection observer API를 사용한 무한 스크롤 구현
+3. Context API의 사용하여 비즈니스 로직 분리
+4. 커스텀 fetching 훅 분리를 통한 폭 넓은 사용성
 
 ## 🛠️ 설계 및 구현 설명
 
