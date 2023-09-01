@@ -2,7 +2,6 @@ import { Navigate, Outlet, useRoutes } from 'react-router';
 
 import { IssueProvider, IssuelistProvider } from '@/context';
 
-
 import { ROUTES_PATH } from '@/constants/routes';
 
 import IssueList from '@/pages/IssueList';
@@ -12,8 +11,8 @@ import IssueFetcher from '@/fetcher/IssueFetcher';
 import IssueListFetcher from '@/fetcher/IssueListFetcher';
 
 import Header from '@/components/Header';
+import ApiErrorBoundary from '@/boundary/ApiErrorBoundary';
 import ErrorCard from '@/components/ErrorCard';
-
 
 const Router = () =>
   useRoutes([
@@ -31,9 +30,11 @@ const Router = () =>
           path: ROUTES_PATH.ISSUE_LIST,
           element: (
             <IssuelistProvider>
-              <IssueListFetcher>
-                <IssueList />
-              </IssueListFetcher>
+              <ApiErrorBoundary fallback={({ error, reset }) => <ErrorCard />}>
+                <IssueListFetcher>
+                  <IssueList />
+                </IssueListFetcher>
+              </ApiErrorBoundary>
             </IssuelistProvider>
           ),
         },
