@@ -13,12 +13,14 @@ interface Props {
 }
 
 interface State {
-  hasError: boolean;
+  shouldHandleError: boolean;
+  shouldRethrow: boolean;
   error: Error | null;
 }
 
 const initialState: State = {
-  hasError: false,
+  shouldHandleError: false,
+  shouldRethrow: false,
   error: null,
 };
 
@@ -29,7 +31,19 @@ class ApiErrorBoundary extends Component<Props, State> {
   }
 
   public static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
+    // 토큰 오류 - rethrow (해결불가)
+    if ([401, 403, 404].includes(error.code)) {
+      return {
+        shouldHandleError: false,
+        shouldRethrow: true,
+        error,
+      };
+    }
+    return {
+      shouldHandleError: true,
+      shouldRethrow: false,
+      error,
+    };
   }
 
   public static componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -41,14 +55,21 @@ class ApiErrorBoundary extends Component<Props, State> {
   };
 
   render() {
-    const { error } = this.state;
+    const { error, shouldRethrow, shouldHandleError } = this.state;
     const { fallback, children } = this.props;
 
-    // 폴백 UI
-    if (error !== null) {
+    if (shouldRethrow) {
+      throw error;
+    }
+
+    // retry 할 수 있는 에러
+    if (shouldHandleError && error) {
       return fallback({ error, reset: this.resetErrorBoundary });
     }
-    return children;
+
+    if (!shouldHandleError) {
+      return children;
+    }
   }
 }
 
