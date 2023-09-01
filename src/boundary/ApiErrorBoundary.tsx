@@ -1,5 +1,9 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 
+interface ErrorType extends Error {
+  code: number;
+}
+
 type FallbackProps<ErrorType extends Error = Error> = {
   error: ErrorType;
   reset: (...args: unknown[]) => void;
@@ -30,8 +34,7 @@ class ApiErrorBoundary extends Component<Props, State> {
     this.state = initialState;
   }
 
-  public static getDerivedStateFromError(error: Error): State {
-    // 토큰 오류 - rethrow (해결불가)
+  public static getDerivedStateFromError(error: ErrorType): State {
     if ([401, 403, 404].includes(error.code)) {
       return {
         shouldHandleError: false,

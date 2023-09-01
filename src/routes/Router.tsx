@@ -31,7 +31,7 @@ const Router = () => {
           path: ROUTES_PATH.ISSUE_LIST,
           element: (
             <IssuelistProvider>
-              <ApiErrorBoundary fallback={({ error, reset }) => <ErrorCard />}>
+              <ApiErrorBoundary fallback={({ error }) => <ErrorCard message={error.message} />}>
                 <IssueListFetcher>
                   <IssueList />
                 </IssueListFetcher>
@@ -54,7 +54,7 @@ const Router = () => {
     { path: '*', element: <ErrorCard /> },
   ]);
   return (
-    <GlobalErrorBoundary renderFallback={({ error, reset }) => <ErrorCard />}>
+    <GlobalErrorBoundary renderFallback={({ error }) => <ErrorCard message={error.message} />}>
       {routes}
     </GlobalErrorBoundary>
   );

@@ -1,4 +1,3 @@
-//Issueprovider: 이슈번호, 이슈제목, 작성자, 작성일, 코멘트수
 import { createContext, PropsWithChildren, useState } from 'react';
 import { getIssuesPage } from '@/apis';
 import { issueDataType, Issue } from '@/types';
@@ -42,7 +41,7 @@ export const IssuelistProvider = ({ children }: PropsWithChildren) => {
       setPage(pageNum);
       setHasNextPage(!!data.length);
     } catch (error) {
-      setError(error);
+      setError(error as Error);
     } finally {
       setIsLoading(false);
       setIsInitialLoad(false);

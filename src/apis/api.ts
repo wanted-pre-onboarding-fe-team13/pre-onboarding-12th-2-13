@@ -1,8 +1,10 @@
 import { Octokit } from 'octokit';
 
+// auth: import.meta.env.VITE_GITHUB_TOKEN,
+// baseUrl: import.meta.env.VITE_BASE_API_URL,
+
 export const octokit = new Octokit({
-  auth: import.meta.env.VITE_GITHUB_TOKEN,
-  baseUrl: import.meta.env.VITE_BASE_API_URL,
+  baseUrl: 'https://api.github.com/repos/facebook/react',
 });
 
 export const getIssuesPage = async (pageParam = 1) => {
