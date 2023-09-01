@@ -2,6 +2,7 @@ import React from 'react';
 import { issueDataType } from '@/types/types';
 import { dateToKr } from '@/utils';
 import { useNavigate } from 'react-router-dom';
+import { ROUTES_PATH } from '@/constants/routes';
 
 interface IssueCardProps {
   issue: issueDataType;
@@ -14,7 +15,7 @@ const IssueCard: React.FC<IssueCardProps> = ({ issue }) => {
     <div
       className="issue-card flex flex-row justify-between border-2 border-solid p-3 mt-3 rounded-lg mx-10 cursor-pointer hover:shadow-md transform hover:-translate-y-1 transition-all"
       onClick={() => {
-        navigate(`/issue/${issue.number}`);
+        navigate(ROUTES_PATH.ISSUE(issue.number));
       }}
     >
       <div className="issue-content">
