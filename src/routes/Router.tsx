@@ -13,9 +13,10 @@ import IssueListFetcher from '@/fetcher/IssueListFetcher';
 import Header from '@/components/Header';
 import ApiErrorBoundary from '@/boundary/ApiErrorBoundary';
 import ErrorCard from '@/components/ErrorCard';
+import { GlobalErrorBoundary } from '@/boundary/GlobalErrorBoundary';
 
-const Router = () =>
-  useRoutes([
+const Router = () => {
+  const routes = useRoutes([
     { path: ROUTES_PATH.HOME, element: <Navigate to={ROUTES_PATH.ISSUE_LIST} replace /> },
     {
       path: ROUTES_PATH.HOME,
@@ -52,5 +53,11 @@ const Router = () =>
     },
     { path: '*', element: <ErrorCard /> },
   ]);
+  return (
+    <GlobalErrorBoundary renderFallback={({ error, reset }) => <ErrorCard />}>
+      {routes}
+    </GlobalErrorBoundary>
+  );
+};
 
 export default Router;
