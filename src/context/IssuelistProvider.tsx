@@ -10,7 +10,6 @@ export interface IssuelistContextProps {
   error: Error | null;
   fetchIssues: (page: number) => void;
   increasePage: () => void;
-  isInitialLoad: boolean;
 }
 
 export const IssuelistContext = createContext<IssuelistContextProps | undefined>(undefined);
@@ -18,7 +17,6 @@ export const IssuelistContext = createContext<IssuelistContextProps | undefined>
 export const IssuelistProvider = ({ children }: PropsWithChildren) => {
   const [issues, setIssues] = useState<issueDataType[][]>([]);
   const [page, setPage] = useState<number>(1);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [hasNextPage, setHasNextPage] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -44,7 +42,6 @@ export const IssuelistProvider = ({ children }: PropsWithChildren) => {
       setError(error as Error);
     } finally {
       setIsLoading(false);
-      setIsInitialLoad(false);
     }
   };
 
@@ -62,7 +59,6 @@ export const IssuelistProvider = ({ children }: PropsWithChildren) => {
         error,
         fetchIssues,
         increasePage,
-        isInitialLoad,
       }}
     >
       {children}

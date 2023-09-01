@@ -6,7 +6,7 @@ import useIssueListInfiniteScroll from '@/hooks/useIssueListInfiniteScroll';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function IssueListFetcher({ children }: React.PropsWithChildren) {
-  const { page, isLoading, error, fetchIssues, isInitialLoad } = useIssueListContext();
+  const { page, isLoading, error, fetchIssues } = useIssueListContext();
 
   const { targetRef } = useIssueListInfiniteScroll();
 
@@ -18,10 +18,12 @@ export default function IssueListFetcher({ children }: React.PropsWithChildren) 
     throw new Error();
   }
 
-  if (isInitialLoad) {
+  if (isLoading) {
     return (
       <>
+        {children}
         <LoadingSpinner />
+        <div ref={targetRef} />
       </>
     );
   }
@@ -29,7 +31,6 @@ export default function IssueListFetcher({ children }: React.PropsWithChildren) 
   return (
     <>
       {children}
-      {isLoading && <LoadingSpinner />}
       <div ref={targetRef} />
     </>
   );
