@@ -2,7 +2,7 @@ import { ReactNode, createContext, useState } from 'react';
 
 import { getIssueDetails } from '@/apis';
 
-import { issueDataType, IssueContextType } from '@/types/types';
+import { issueDataType, IssueContextType } from '@/types';
 
 const nullIssue = {
   number: 0,

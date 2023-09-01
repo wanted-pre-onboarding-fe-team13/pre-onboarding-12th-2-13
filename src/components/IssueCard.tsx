@@ -1,5 +1,5 @@
 import React from 'react';
-import { issueDataType } from '@/types/types';
+import { issueDataType } from '@/types';
 import { dateToKr } from '@/utils';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES_PATH } from '@/constants/routes';
