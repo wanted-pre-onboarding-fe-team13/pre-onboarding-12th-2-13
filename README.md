@@ -1,13 +1,45 @@
-# 원티드 프리온보딩 2주차 -
+# 원티드 프리온보딩 2주차 - 레포지토리 이슈 목록 확인
 
 ## 📚 과제
 
-- Facebook의 React 레파지토리의 이슈 목록과 상세 내용을 확인하는 웹 사이트 구축
+### Facebook의 React 레파지토리의 이슈 목록과 상세 내용을 확인하는 웹 사이트 구축
+
+#### 과제1. 이슈 목록 화면
+
+- 이슈 목록 가져오기 API 활용
+- open 상태의 이슈 중 코멘트가 많은 순으로 정렬
+- 각 행에는 ‘이슈번호, 이슈제목, 작성자, 작성일, 코멘트수’를 표시
+- 다섯번째 셀마다 광고 이미지 출력
+- 화면을 아래로 스크롤 할 시 이슈 목록 추가 로딩(인피니티 스크롤)
+
+#### 과제2. 이슈 상세 화면
+
+- 이슈의 상세 내용 표시
+- ‘이슈번호, 이슈제목, 작성자, 작성일, 코멘트 수, 작성자 프로필 이미지, 본문' 표시
+
+#### 과제3. 공통 헤더
+
+- 두 페이지는 공통 헤더를 공유합니다.
+- 헤더에는 Organization Name / Repository Name이 표시됩니다.
+
+---
+
+## 사용한 기술 스택
 
 <img src="https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=FFF&style=flat-square"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat-square&logo=Tailwind%20CSS&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=Axios&logoColor=white"/> <img src="https://img.shields.io/badge/Octokit-2F93E0?style=flat-square&logo=Octopus-Deploy&logoColor=white"/>
 </br>
 
-## 🎬 미리보기
+---
+
+## 🎬 페이지 미리보기
+
+### 메인 페이지 (이슈 목록)
+
+<img src="./src/assets/mainpage.png" width="400">
+
+### 상세 페이지 (이슈에 대한 상세한 정보)
+
+<img src="./src/assets/issuepage.png" width="400">
 
 ## 💭 Best Practice
 
